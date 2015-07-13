@@ -105,9 +105,12 @@ def DoxyfileParse(file_contents, conf_dir, data=None):
                 if nextfile in data[key]:
                     raise Exception("recursive @INCLUDE in Doxygen config: " + nextfile)
                 data[key].append(nextfile)
-                fh = open(nextfile, 'r')
-                DoxyfileParse(fh.read(), conf_dir, data)
-                fh.close()
+                try:
+                    fh = open(nextfile, 'r')
+                    DoxyfileParse(fh.read(), conf_dir, data)
+                    fh.close()
+                except:
+                    pass
             else:
                 append_data(data, key, new_data, token)
                 new_data = True
